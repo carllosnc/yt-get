@@ -1,11 +1,27 @@
-# yt-get
+<h1 align="center">
+  YT-GET
+</h1>
 
-🚧🚧 **UNDER CONSTRUCTION** 🚧🚧
+<p align="center">
+  Download YouTube videos/audios in your terminal
+</p>
 
-Download YouTube videos/audios via CLI.
+<p align="center">
+  Just run in your terminal
+</p>
 
-```sh
-node index.js
+<h3 align="center">
+  👇
+</h3>
+
+<h3 align="center">
+  npx carllosnc/getmoov
+</h3>
+
+### Install
+
+```bash
+npm i -g carllosnc/yt-get
 ```
 ---
 
