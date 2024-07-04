@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { createWriteStream } from 'fs';
 import ytdl from 'ytdl-core';
 import { input, select } from '@inquirer/prompts';
