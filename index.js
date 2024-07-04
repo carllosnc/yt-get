@@ -1,36 +1,53 @@
-const fs = require('fs');
-const ytdl = require('ytdl-core');
+import { createWriteStream } from 'fs';
+import ytdl from 'ytdl-core';
+import { input, select } from '@inquirer/prompts';
 
-/**
- * Download mp3 audio from an YouTube URL.
- *
- * @param {String} ytUrl YouTube video URL.
- * @param {String} filePath Absolute filepath where audio file should be saved.
- */
-async function downloadAsAudio(ytUrl, filePath) {
+async function getVideo(ytUrl, type, filePath) {
+    let quality
+    let extension
+
+    if (type === 'audioandvideo') {
+        quality = 'highest';
+        extension = '.mp4';
+    } else {
+        quality = 'highestaudio';
+        extension = '.mp3';
+    }
+
     return new Promise(async (resolve) => {
         ytdl(ytUrl, {
-            filter: 'audioonly',
-            quality: 'highestaudio',
-        }).pipe(fs.createWriteStream(filePath)).on('finish', () => resolve());
+            filter: type,
+            quality: quality
+        }).pipe(createWriteStream(filePath + extension)).on('finish', () => resolve());
     });
 }
 
-/**
- * Download multiple audios from an array of YouTube URLs.
- *
- * @param {Array} ytUrls Array of YouTube video URLs.
- */
-async function getAudios(ytUrls) {
-    for (const ytUrl of ytUrls) {
-        await downloadAsAudio(ytUrl, `audios/${ytUrl.split('=')[1]}.mp3`);
-        console.log(`Audio downloaded for ${ytUrl}`);
-    }
+function checkYouTubeUrl(url) {
+    const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regex);
+    return (match && match[2].length === 11);
 }
 
-getAudios([
-    // 'https://www.youtube.com/watch?v=7hpfifR6JaM&ab_channel=prodbyIOF',
-    // 'https://www.youtube.com/watch?v=ksBwjhV1xFw&ab_channel=VELVET',
-    // 'https://www.youtube.com/watch?v=tVVCVZsAUE8&ab_channel=beej',
-    // 'https://www.youtube.com/watch?v=PL0bPhpq1R0&ab_channel=BlackEaglebeats'
-]);
+const videoUrl = await input({ message: 'YouTube URL:' });
+
+if (!checkYouTubeUrl(videoUrl)) {
+    console.log('Not a YouTube URL');
+    process.exit(1);
+}
+
+const mediaType = await select({
+    message: 'Type of media:',
+    choices: [
+        {
+            name: 'Video',
+            value: 'audioandvideo'
+        },
+        {
+            name: 'Audio',
+            value: 'audioonly'
+        }
+    ]
+});
+
+await getVideo(videoUrl, mediaType, ytdl.getVideoID(videoUrl));
+console.log('Done!');
