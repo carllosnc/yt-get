@@ -2,6 +2,7 @@
   "name": "yt-get",
   "version": "1.0.0",
   "description": "Get videos from youtube",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@inquirer/prompts": "^5.1.1",
     "ytdl-core": "^4.11.5"
   }
 }
