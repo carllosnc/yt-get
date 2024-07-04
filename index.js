@@ -51,5 +51,6 @@ const mediaType = await select({
     ]
 });
 
+console.log("Downloading...");
 await getVideo(videoUrl, mediaType, ytdl.getVideoID(videoUrl));
 console.log('Done!');
