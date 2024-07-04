@@ -4,6 +4,9 @@
   "description": "Get videos from youtube",
   "type": "module",
   "main": "index.js",
+  "bin": {
+    "yt-get": "index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
