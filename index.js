@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createWriteStream } from 'fs';
-import ytdl from 'ytdl-core';
+import ytdl from '@distube/ytdl-core';
 import { input, select } from '@inquirer/prompts';
 
 async function getVideo(ytUrl, type, filePath) {
